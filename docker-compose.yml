@@ -1,0 +1,32 @@
+networks:
+  compose-test-net:
+    driver: bridge
+services:
+  config-server:
+    build:
+      context: C:\dev\work\compose-test\config-server
+      dockerfile: Dockerfile
+    container_name: config-server
+    expose:
+    - 8888
+    image: config-server:latest
+    networks:
+      - compose-test-net
+  config-client:
+    build:
+      context: C:\dev\work\compose-test\client
+      dockerfile: Dockerfile
+    container_name: client
+    depends_on:
+    - config-server
+    expose:
+    - 8080
+    image: client:latest
+    entrypoint: /opt/client/client.sh
+    links:
+    - config-server:config-server
+    networks:
+      - compose-test-net
+    ports:
+    - 8080:8080
+version: '3.0'
