@@ -22,7 +22,6 @@ services:
     expose:
     - 8080
     image: client:latest
-    entrypoint: /opt/client/client.sh
     links:
     - config-server:config-server
     networks:
